@@ -1,0 +1,38 @@
+[
+  {
+    "wzorzec": "jaka.*pogoda",
+    "intencja": "zapytanie_pogoda"
+  },
+  {
+    "wzorzec": "(stefan[ ,]*)?(kt[oó]ra.*godzina|godzina.*kt[oó]ra|kt[oó]rej godzinie|godzina\\??)",
+    "intencja": "zapytanie_godzina"
+  },
+  {
+    "wzorzec": "dzie[nń].*dobry",
+    "intencja": "powitanie"
+  },
+  {
+    "wzorzec": "(zapisz|dodaj|utw[oó]rz|stw[oó]rz).*wiadomo[śćs]",
+    "intencja": "zapisz_wiadomosc"
+  },
+  {
+    "wzorzec": "(wy[śs]lij|prze[śs]lij|roze[śs]lij).*wiadomo[śćs]",
+    "intencja": "wyslij_wiadomosc"
+  },
+  {
+    "wzorzec": "(odczytaj|przeczytaj).*wiadomo[śćs]( numer \\d+)?",
+    "intencja": "odczytaj_wiadomosc"
+  },
+  {
+    "wzorzec": "(pokaż|przeglądaj|lista).*wiadomo[śćs]|komunikat[óo]w",
+    "intencja": "przeglad_wiadomosci"
+  },
+  {
+    "wzorzec": "(mam|czy.*(s[ąa]|mam)).*(nowe|jakieś).*wiadomo[śćs]",
+    "intencja": "otrzymane_wiadomosci"
+  },
+  {
+    "wzorzec": "(usu[nń]|skasuj|wykasuj).*wiadomo[śćs]?",
+    "intencja": "usun_wiadomosc"
+  }
+]

@@ -1,0 +1,17 @@
+# Pliki i foldery z konfiguracją lokalną
+config/secure.json
+
+# Środowisko wirtualne
+venv/
+.venv/
+
+# Cache Pythona
+__pycache__/
+*.pyc
+
+# Streamlit secrets (jeśli kiedyś użyjesz)
+.streamlit/secrets.toml
+
+# IDE (opcjonalnie)
+.vscode/
+.idea/

@@ -1,0 +1,5 @@
+# Zachowuj LF w repo, konwertuj na CRLF lokalnie (Windows)
+* text=auto
+
+# Wymuszenie LF np. dla .sh
+*.sh text eol=lf

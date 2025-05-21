@@ -1,0 +1,23 @@
+# === Podstawowe ===
+streamlit
+torch
+numpy
+scipy
+sounddevice
+requests
+
+# === STT ===
+faster-whisper
+whisper
+vosk
+SpeechRecognition
+
+# === TTS ===
+TTS
+pyttsx3==2.90
+pywin32; platform_system=="Windows"
+gTTS
+playsound==1.2.2
+
+# === Opcjonalne (ale przydatne) ===
+noisereduce
