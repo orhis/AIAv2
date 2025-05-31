@@ -106,6 +106,8 @@ if st.button("💾 Zapisz konfigurację"):
     st.success("✅ Konfiguracja zapisana!")
 
 # === 9. URUCHOMIENIE AIA ===
+# UWAGA: automatyczne uruchamianie przy zmianie trybu – tylko na czas testów!
+# Po kliknięciu raz przycisku, system uruchamia się ponownie przy każdym odświeżeniu GUI.
 st.markdown("---")
 st.header("🚀 Uruchomienie")
 
@@ -131,8 +133,13 @@ if st.button("🚀 Uruchom AIA teraz"):
 
 if st.session_state["aia_uruchomiono"]:
     try:
-        subprocess.Popen(["python", "main.py"], shell=True)
-        st.success("✅ Konfiguracja zapisana. Uruchamiam AIA...")
-        st.info("🧠 AIA została uruchomiona zgodnie z konfiguracją.")
+        if tryb == "prezentacja":
+            subprocess.Popen(["python", "demo.py"], shell=True)
+            st.success("✅ Tryb prezentacji uruchomiony.")
+            st.info("🧪 Symulacja AIA działa w osobnym oknie terminala.")
+        else:
+            subprocess.Popen(["python", "main.py"], shell=True)
+            st.success("✅ Konfiguracja zapisana. Uruchamiam AIA...")
+            st.info("🧠 AIA została uruchomiona zgodnie z konfiguracją.")
     except Exception as e:
         st.error(f"❌ Błąd uruchamiania AIA: {e}")

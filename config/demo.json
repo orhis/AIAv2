@@ -1,38 +1,58 @@
-[
-  {
-    "rola": "system",
-    "tekst": "Witaj! Tu AIA. Trwa uruchamianie systemu..."
-  },
-  {
-    "rola": "system",
-    "tekst": "Ładowanie konfiguracji: STT = faster-whisper, TTS = coqui, LLM = gpt-3.5-turbo."
-  },
-  {
-    "rola": "system",
-    "tekst": "Inicjalizacja silnika rozpoznawania mowy (faster-whisper)... OK."
-  },
-  {
-    "rola": "system",
-    "tekst": "Inicjalizacja syntezatora mowy (coqui)... OK."
-  },
-  {
-    "rola": "system",
-    "tekst": "Połączenie z modelem GPT-3.5 Turbo... OK."
-  },
-  {
-    "rola": "system",
-    "tekst": "System gotowy. Przechodzę w tryb czuwania. Oczekuję na hasło aktywujące."
-  },
-  {
-    "rola": "system",
-    "tekst": "System nadal aktywny. Oczekuję na interakcję..."
-  },
-  {
-    "rola": "pauza",
-    "czas": 10
-  },
-  {
-    "rola": "system",
-    "tekst": "Symulacja zakończona. Dziękuję za uwagę."
-  }
+  [
+  "[SYSTEM]: ✅ GPU aktywne: NVIDIA GeForce RTX 4070",
+  "[SYSTEM]: 🔑 Klucz API pobrany z .streamlit/secrets.toml",
+  "[SYSTEM]: 🔧 AIA v2 – uruchamianie w trybie: PREZENTACJA",
+  "[SYSTEM]: 🔊 Dostępne głosy:",
+  "[SYSTEM]: 0: Microsoft Paulina Desktop - Polish",
+  "[SYSTEM]: Inicjalizacja syntezatora mowy (coqui)... OK.",
+  "[SYSTEM]: Połączenie z modelem GPT-3.5 Turbo... OK.",
+  "[AIA]: System gotowy. Przechodzę w tryb czuwania.",
+  
+    "[AIA]: System nadal aktywny. Oczekuję na interakcję...",
+  "+ [USER INPUT]: Dzień dobry AIA.",
+  "[AIA]: Dzień dobry! Jak mogę Ci pomóc?",
+  "+ [USER INPUT]: Która jest godzina?",
+  "[AIA]: Jest godzina 8:55.",
+  "+ [USER INPUT]: Co mam na dziś zaplanowane?",
+  "[AIA]: Już sprawdzam harmonogram dnia...",
+  "[AIA]: O 9:00 masz rechabilitacje.",
+  "[AIA]: O 12:00 jesteś umówiony z sąsiadką na spacer w parku.",
+  "[AIA]: O 18:00 odwiedzi Cię syn z wnukami.",
+  "[AIA]: Dodatkowo przypominam o codziennych lekach zapisanych przez lekarza – na cukrzycę i serce.",
+  "[AIA]: System nadal aktywny. Oczekuję na interakcję...",
+  "[AIA]: Odebrano nową wiadomość. Nadawca: Przychodnia Lekarska.",
+  "[AIA]: Czy chcesz, abym ją odczytała?",
+  "+ [USER INPUT]: AIA, odczytaj wiadomość.",
+  "[AIA]: Treść wiadomości: Uprzejmie informujemy, że termin Twojej wizyty został przeniesiony na jutro, godzina 9:30.",
+  "[AIA]: Czy chcesz, abym odpowiedziała na tę wiadomość?",
+  "+ [USER INPUT]: Czy mam coś w planie o tej porze?",
+  "[AIA]: Sprawdzam kalendarz... Nie masz zaplanowanych wydarzeń o tej godzinie.",
+  "+ [USER INPUT]: W takim razie wyślij potwierdzenie.",
+  "[AIA]: Redaguję wiadomość...",
+  "[AIA]: Temat: Potwierdzenie wizyty",
+  "[AIA]: Treść: Potwierdzam nowy termin wizyty w dniu jutrzejszym o godzinie 9:30. Dziękuję za informację.",
+  "[AIA]: Wiadomość została wysłana do przychodni.",
+  "[AIA]: System nadal aktywny. Oczekuję na interakcję...",
+  "+ [USER INPUT]: AIA, opowiedz dowcip.",
+  "[AIA]: Zastanawiam się, czy bliźniacy rozumieją, że jedno z nich jest nieplanowanym dzieckiem? 😄",
+  "[AIA]: Chcesz usłyszeć jeszcze jeden?",
+  "+ [USER INPUT]: Tak.",
+  "[AIA]: Rosyjskie wojsko zatrzymuje furmankę. Z wozu zeskakuje Piętka w przebraniu starej babulinki, ściąga chustę i wita się z żołnierzami.",
+  "[AIA]: 'Ale się zakamuflowaliście, towarzyszu' – mówi jeden z nich.",
+  "[AIA]: Na co Piętka odpowiada: 'To jeszcze nic, odprzęgnijcie towarzysza Czapajewa.' 😄",
+  "+ [USER INPUT]: AIA bardzo smieszne, ubawiłem się",
+  "[AIA]: Dziękuję, bardzo mnie to cieszy",
+  "[AIA]: Czy mam coś jeszcze zrobić?",
+  "+ [USER INPUT]: AIA, zanotuj, że przyjąłem leki.",
+  "[AIA]: Zapisuję informację: dzisiejsza dawka leków została przyjęta. Dziękuję za potwierdzenie.",
+  "[AIA]: System nadal aktywny. Oczekuję na interakcję...",
+  "[AIA]: Odebrano nową wiadomość.",
+  "[AIA]: Nadawca: Twoja przyjaciółka",
+  "+ [USER INPUT]: AIA, odczytaj wiadomość.",
+  "[AIA]: Dostałam wiadomość od Twojej lodówki.",
+  "[AIA]: Pyta, czy naprawdę musisz ją tak często odwiedzać. 😄",
+  "+ [USER INPUT]: No tak, będę pamiętał",
+  "[AIA]: Informuje, że przyszedł fizjoterapełta Łukasz; czeka przy drzwiach",
+  "+ [USER INPUT]: Dziękuję, ustaw tryb cichy, jak będę czegoś potrzebował to zawołam.",
+  "[AIA]: Tryb cichy aktywny"
 ]
