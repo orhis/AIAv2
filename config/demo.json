@@ -1,0 +1,38 @@
+[
+  {
+    "rola": "system",
+    "tekst": "Witaj! Tu AIA. Trwa uruchamianie systemu..."
+  },
+  {
+    "rola": "system",
+    "tekst": "Ładowanie konfiguracji: STT = faster-whisper, TTS = coqui, LLM = gpt-3.5-turbo."
+  },
+  {
+    "rola": "system",
+    "tekst": "Inicjalizacja silnika rozpoznawania mowy (faster-whisper)... OK."
+  },
+  {
+    "rola": "system",
+    "tekst": "Inicjalizacja syntezatora mowy (coqui)... OK."
+  },
+  {
+    "rola": "system",
+    "tekst": "Połączenie z modelem GPT-3.5 Turbo... OK."
+  },
+  {
+    "rola": "system",
+    "tekst": "System gotowy. Przechodzę w tryb czuwania. Oczekuję na hasło aktywujące."
+  },
+  {
+    "rola": "system",
+    "tekst": "System nadal aktywny. Oczekuję na interakcję..."
+  },
+  {
+    "rola": "pauza",
+    "czas": 10
+  },
+  {
+    "rola": "system",
+    "tekst": "Symulacja zakończona. Dziękuję za uwagę."
+  }
+]
