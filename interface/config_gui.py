@@ -37,8 +37,9 @@ stt = st.selectbox(
 )
 
 # AKTUALIZOWANE - dodano Edge-TTS
-tts_options = ["coqui", "pyttsx3", "elevenlabs", "google", "edge"]
-current_tts = config.get("local_config", {}).get("tts", "coqui")
+# tts_options = ["coqui", "pyttsx3", "elevenlabs", "google", "edge"] # Obecnie Nieużywane - problem z j. polskim
+tts_options = ["edge"]
+current_tts = config.get("local_config", {}).get("tts", "edge")
 tts_index = tts_options.index(current_tts) if current_tts in tts_options else 0
 
 tts = st.selectbox("🔊 TTS", tts_options, index=tts_index)
@@ -57,9 +58,72 @@ if tts == "edge":
         help="Zofia - kobieta (naturalny), Marek - mężczyzna (spokojny), Agnieszka - kobieta (przyjemny)"
     )
     
-    # Podgląd głosów
+    # Podgląd głosów - NOWA IMPLEMENTACJA
     if st.button("🎧 Testuj głos"):
-        st.info(f"Test głosu {edge_voice} zostanie odtworzony przez system TTS")
+        try:
+            # Import potrzebnych bibliotek
+            import asyncio
+            import tempfile
+            import os
+            
+            # Mapowanie głosów
+            POLISH_VOICES = {
+                "marek": "pl-PL-MarekNeural",
+                "zofia": "pl-PL-ZofiaNeural", 
+                "agnieszka": "pl-PL-AgnieszkaNeural"
+            }
+            
+            # Test głosu
+            test_text = f"Witaj! To jest test głosu {edge_voice}. System AIA działa poprawnie."
+            
+            with st.spinner("🎵 Generuję test głosu..."):
+                try:
+                    import edge_tts
+                    
+                    # Asynchroniczne generowanie
+                    async def test_voice():
+                        voice_id = POLISH_VOICES.get(edge_voice, "pl-PL-ZofiaNeural")
+                        communicate = edge_tts.Communicate(test_text, voice_id)
+                        
+                        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+                            await communicate.save(tmp.name)
+                            return tmp.name
+                    
+                    # Uruchom generator głosu
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    audio_file = loop.run_until_complete(test_voice())
+                    loop.close()
+                    
+                    # Odtwórz audio
+                    try:
+                        import sounddevice as sd
+                        import soundfile as sf
+                        
+                        data, samplerate = sf.read(audio_file)
+                        sd.play(data, samplerate)
+                        sd.wait()
+                        
+                        st.success(f"✅ Test głosu {edge_voice} zakończony!")
+                        
+                    except ImportError:
+                        # Fallback - pokaż plik do pobrania
+                        with open(audio_file, "rb") as f:
+                            st.audio(f.read(), format="audio/wav")
+                        st.info("🔊 Odtwórz powyższy plik audio")
+                    
+                    # Usuń tymczasowy plik
+                    try:
+                        os.unlink(audio_file)
+                    except:
+                        pass
+                        
+                except ImportError:
+                    st.error("❌ Brak biblioteki edge-tts. Zainstaluj: pip install edge-tts")
+                    
+        except Exception as e:
+            st.error(f"❌ Błąd testu głosu: {e}")
+            st.info("💡 Upewnij się że masz zainstalowane: edge-tts, sounddevice, soundfile")
 else:
     edge_voice = "zofia"  # domyślna wartość
 
@@ -109,8 +173,10 @@ if "top_p" in PARAMETRY_LLM[llm]:
     parametry["top_p"] = st.slider("🎲 Top-p", 0.0, 1.0, float(llm_config.get("top_p", 1.0)), step=0.05)
 
 # === 7. API KEY ===
+# UKRYTE - niebezpieczne wpisywanie kluczy w GUI
 st.header("🔑 Klucz API")
-api_key = st.text_input("API Key:", value=secure.get("api_key", ""), type="password")
+st.info("💡 Klucz API skonfiguruj przez plik config/secure.json lub zmienne środowiskowe")
+st.code('{"api_key": "twój-klucz-tutaj"}', language="json")
 
 # === 8. ZAPIS KONFIGURACJI ===
 if st.button("💾 Zapisz konfigurację"):
@@ -121,13 +187,11 @@ if st.button("💾 Zapisz konfigurację"):
             "styl": styl,
             "stt": stt,
             "tts": tts,
-            "edge_voice": edge_voice  # DODANE
+            "edge_voice": edge_voice
         }
     }
     with open(config_path, "w", encoding="utf-8") as f:
         json.dump(new_config, f, indent=4, ensure_ascii=False)
-    with open(secure_path, "w", encoding="utf-8") as f:
-        json.dump({"api_key": api_key}, f, indent=4)
     st.success("✅ Konfiguracja zapisana!")
 
 # === 9. URUCHOMIENIE AIA ===
@@ -142,14 +206,12 @@ if st.button("🚀 Uruchom AIA teraz"):
             "styl": styl,
             "stt": stt,
             "tts": tts,
-            "edge_voice": edge_voice  # DODANE
+            "edge_voice": edge_voice
         }
     }
     try:
         with open(config_path, "w", encoding="utf-8") as f:
             json.dump(new_config, f, indent=4, ensure_ascii=False)
-        with open(secure_path, "w", encoding="utf-8") as f:
-            json.dump({"api_key": api_key}, f, indent=4)
 
         st.session_state["aia_uruchomiono"] = True
     except Exception as e:
