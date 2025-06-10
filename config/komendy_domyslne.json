@@ -8,8 +8,24 @@
     "intencja": "zapytanie_godzina"
   },
   {
-    "wzorzec": "dzie[nń].*dobry",
+    "wzorzec": "(stefan[ ,]*)?(kt[oó]ry.*dzie[nń]|jaki.*dzie[nń]|dzi[sś].*data|kt[oó]ra.*data)",
+    "intencja": "zapytanie_data"
+  },
+  {
+    "wzorzec": "(dzie[nń].*dobry|cze[śs][ćc]|witaj|hej|hello)",
     "intencja": "powitanie"
+  },
+  {
+    "wzorzec": "(do.*widzenia|miłego.*dnia|[żz]egnaj|papa|dobranoc)",
+    "intencja": "pozegnanie"
+  },
+  {
+    "wzorzec": "(jak.*si[ęe].*masz|co.*słycha[ćc]|jak.*leci|wszystko.*ok)",
+    "intencja": "zapytanie_samopoczucie"
+  },
+  {
+    "wzorzec": "(jak.*działa.*system|status.*systemu|czy.*wszystko.*ok|sprawdź.*system)",
+    "intencja": "status_systemu"
   },
   {
     "wzorzec": "(zapisz|dodaj|utw[oó]rz|stw[oó]rz).*wiadomo[śćs]",
@@ -34,5 +50,50 @@
   {
     "wzorzec": "(usu[nń]|skasuj|wykasuj).*wiadomo[śćs]?",
     "intencja": "usun_wiadomosc"
-  }
+  },
+  
+  {
+    "wzorzec": "(co.*mog[ęe].*zrobic|co.*ugotowa[ćc]|co.*przygotowa[ćc]).*z.*(lodówk[ąa]|składnik|produkty|mam)",
+    "intencja": "co_moge_zrobic_z_lodowki"
+  },
+  {
+    "wzorzec": "(zaproponuj|poka[żz]|znajd[źz]).*dan[eia].*z.*(lodówk[ąa]|składnik|mam)",
+    "intencja": "zaproponuj_dania"
+  },
+  {
+    "wzorzec": "(mam|w.*lodówce).*([a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+.*){2,}.*co.*mog[ęe]",
+    "intencja": "dania_z_skladnikow"
+  },
+  {
+    "wzorzec": "(chc[ęe]|szukam|potrzebuj[ęe]).*dan[eia].*(wege|wegetaria[nń]sk[ie]|bez.*mi[ęe]sa)",
+    "intencja": "dania_wege"
+  },
+  {
+    "wzorzec": "(chc[ęe]|szukam|potrzebuj[ęe]).*dan[eia].*(niskot[łl]uszcz|bez.*t[łl]uszcz|diet)",
+    "intencja": "dania_niskotluszczowe"
+  },
+  {
+    "wzorzec": "(chc[ęe]|szukam|potrzebuj[ęe]).*dan[eia].*(niskocukr|bez.*cukr|keto)",
+    "intencja": "dania_niskocukrowe"
+  },
+  {
+    "wzorzec": "(ile.*kalorii|kalorie|wartość.*odżywcz).*ma.*(przepis|danie)",
+    "intencja": "kalorie_przepisu"
+  },
+  {
+    "wzorzec": "(przepis.*na|jak.*zrobic|jak.*przygotowa[ćc]).+",
+    "intencja": "przepis_szczegolowy"
+  },
+  {
+    "wzorzec": "(skladniki|produkty|co.*potrzebuj[ęe]).*na.+",
+    "intencja": "skladniki_na_danie"
+  },
+  {
+    "wzorzec": "ile.*kalorii.*ma.*[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+",
+    "intencja": "kalorie_produktu"
+  },
+  {
+  "wzorzec": "(zmień|przełącz).*(model|llm).*(gpt|claude|mistral)",
+  "intencja": "zmien_model"
+}
 ]

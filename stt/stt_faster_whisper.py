@@ -11,7 +11,7 @@ import json
 SCIEZKA_MODELU = "models/faster-whisper-small"
 NAZWA_MODELU = "small"
 SAMPLERATE = 16000
-DURATION = 5  # czas nagrania w sekundach
+DURATION = 10  # czas nagrania w sekundach
 MIN_AUDIO_LENGTH = 0.5  # minimalna długość audio do transkrypcji (sekundy)
 
 # === 2. Wykrycie GPU/CPU i precyzji ===

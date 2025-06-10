@@ -47,7 +47,7 @@ tts = st.selectbox("🔊 TTS", tts_options, index=tts_index)
 # NOWE - Konfiguracja Edge-TTS
 if tts == "edge":
     st.subheader("🎙️ Konfiguracja Edge-TTS")
-    edge_voices = ["zofia", "marek", "agnieszka"]
+    edge_voices = ["zofia", "marek"]
     current_edge_voice = config.get("local_config", {}).get("edge_voice", "zofia")
     edge_voice_index = edge_voices.index(current_edge_voice) if current_edge_voice in edge_voices else 0
     
@@ -55,7 +55,7 @@ if tts == "edge":
         "Głos polski:",
         edge_voices,
         index=edge_voice_index,
-        help="Zofia - kobieta (naturalny), Marek - mężczyzna (spokojny), Agnieszka - kobieta (przyjemny)"
+        help="Zofia - kobieta (naturalny), Marek - mężczyzna (spokojny)"
     )
     
     # Podgląd głosów - NOWA IMPLEMENTACJA
@@ -69,8 +69,7 @@ if tts == "edge":
             # Mapowanie głosów
             POLISH_VOICES = {
                 "marek": "pl-PL-MarekNeural",
-                "zofia": "pl-PL-ZofiaNeural", 
-                "agnieszka": "pl-PL-AgnieszkaNeural"
+                "zofia": "pl-PL-ZofiaNeural"
             }
             
             # Test głosu
