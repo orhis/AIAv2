@@ -1,17 +1,40 @@
-# Pliki i foldery z konfiguracją lokalną
-config/secure.json
+# === Python cache ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
 
-# Środowisko wirtualne
+# === Virtual environments ===
 venv/
 .venv/
 
-# Cache Pythona
-__pycache__/
-*.pyc
-
-# Streamlit secrets (jeśli kiedyś użyjesz)
-.streamlit/secrets.toml
-
-# IDE (opcjonalnie)
+# === IDE and editor settings ===
 .vscode/
 .idea/
+
+# === Model and audio data ===
+models/
+*.wav
+*.mp3
+*.tmp
+
+# === Local databases and logs ===
+*.log
+*.sqlite3
+
+# === Configuration (prywatne dane) ===
+config/secure.json
+.streamlit/secrets.toml
+
+# === OS-specific ===
+.DS_Store
+Thumbs.db
+
+# === Temporary or backup files ===
+*.bak
+*.old
+*.swp
+
+# === Database files (local data) ===
+data/db/
+*.db

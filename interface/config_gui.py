@@ -36,8 +36,32 @@ stt = st.selectbox(
     index=stt_options.index(config.get("local_config", {}).get("stt", "whisper"))
 )
 
-tts = st.selectbox("🔊 TTS", ["coqui", "pyttsx3", "elevenlabs", "google"],
-                   index=["coqui", "pyttsx3", "elevenlabs", "google"].index(config.get("local_config", {}).get("tts", "coqui")))
+# AKTUALIZOWANE - dodano Edge-TTS
+tts_options = ["coqui", "pyttsx3", "elevenlabs", "google", "edge"]
+current_tts = config.get("local_config", {}).get("tts", "coqui")
+tts_index = tts_options.index(current_tts) if current_tts in tts_options else 0
+
+tts = st.selectbox("🔊 TTS", tts_options, index=tts_index)
+
+# NOWE - Konfiguracja Edge-TTS
+if tts == "edge":
+    st.subheader("🎙️ Konfiguracja Edge-TTS")
+    edge_voices = ["zofia", "marek", "agnieszka"]
+    current_edge_voice = config.get("local_config", {}).get("edge_voice", "zofia")
+    edge_voice_index = edge_voices.index(current_edge_voice) if current_edge_voice in edge_voices else 0
+    
+    edge_voice = st.selectbox(
+        "Głos polski:",
+        edge_voices,
+        index=edge_voice_index,
+        help="Zofia - kobieta (naturalny), Marek - mężczyzna (spokojny), Agnieszka - kobieta (przyjemny)"
+    )
+    
+    # Podgląd głosów
+    if st.button("🎧 Testuj głos"):
+        st.info(f"Test głosu {edge_voice} zostanie odtworzony przez system TTS")
+else:
+    edge_voice = "zofia"  # domyślna wartość
 
 MODELE_LLM = {
     "GPT-3.5 Turbo": "openai/gpt-3.5-turbo",
@@ -96,7 +120,8 @@ if st.button("💾 Zapisz konfigurację"):
             "tryb": tryb,
             "styl": styl,
             "stt": stt,
-            "tts": tts
+            "tts": tts,
+            "edge_voice": edge_voice  # DODANE
         }
     }
     with open(config_path, "w", encoding="utf-8") as f:
@@ -106,8 +131,6 @@ if st.button("💾 Zapisz konfigurację"):
     st.success("✅ Konfiguracja zapisana!")
 
 # === 9. URUCHOMIENIE AIA ===
-# UWAGA: automatyczne uruchamianie przy zmianie trybu – tylko na czas testów!
-# Po kliknięciu raz przycisku, system uruchamia się ponownie przy każdym odświeżeniu GUI.
 st.markdown("---")
 st.header("🚀 Uruchomienie")
 
@@ -118,7 +141,8 @@ if st.button("🚀 Uruchom AIA teraz"):
             "tryb": tryb,
             "styl": styl,
             "stt": stt,
-            "tts": tts
+            "tts": tts,
+            "edge_voice": edge_voice  # DODANE
         }
     }
     try:
@@ -141,5 +165,8 @@ if st.session_state["aia_uruchomiono"]:
             subprocess.Popen(["python", "main.py"], shell=True)
             st.success("✅ Konfiguracja zapisana. Uruchamiam AIA...")
             st.info("🧠 AIA została uruchomiona zgodnie z konfiguracją.")
+        
+        # Reset stanu po uruchomieniu
+        st.session_state["aia_uruchomiono"] = False
     except Exception as e:
         st.error(f"❌ Błąd uruchamiania AIA: {e}")

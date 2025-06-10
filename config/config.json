@@ -2,13 +2,14 @@
     "llm_config": {
         "model": "openai/gpt-3.5-turbo",
         "max_tokens": 2048,
-        "temperature": 0.7,
+        "temperature": 0.65,
         "top_p": 1.0
     },
     "local_config": {
-        "tryb": "prezentacja",
+        "tryb": "testowy",
         "styl": "precyzyjny",
         "stt": "faster_whisper",
-        "tts": "coqui"
+        "tts": "edge",
+        "edge_voice": "zofia"
     }
 }
