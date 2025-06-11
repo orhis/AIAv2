@@ -24,6 +24,29 @@ except ImportError:
 from core import logger
 
 # ===================================================================
+# IMPORT UNIVERSAL INTELLIGENT ASSISTANT - NOWY SYSTEM
+# ===================================================================
+
+# Import Universal Assistant z fallback
+try:
+    from core.universal_intelligent_assistant import universal_intelligent_assistant
+    UNIVERSAL_ASSISTANT_AVAILABLE = True
+    print("✅ Universal Intelligent Assistant załadowany")
+except ImportError:
+    UNIVERSAL_ASSISTANT_AVAILABLE = False
+    print("⚠️ Universal Assistant niedostępny - używam klasycznego systemu")
+
+# Konfiguracja Universal Assistant
+UNIVERSAL_ASSISTANT_CONFIG = {
+    "enabled": True,  # Domyślnie włączony
+    "fallback_to_classic": True,  # Fallback na klasyczny system przy błędzie
+    "auto_context_detection": True,  # Automatyczne wykrywanie kontekstu
+    "supported_contexts": ["cooking", "smart_home", "calendar", "finance", "general"]
+}
+
+print(f"🤖 Universal Assistant: {'ENABLED' if UNIVERSAL_ASSISTANT_AVAILABLE else 'DISABLED'}")
+
+# ===================================================================
 # 📋 SEKCJA 1: FUNKCJE POMOCNICZE - PRZETWARZANIE TEKSTU
 # ===================================================================
 
@@ -228,6 +251,42 @@ except Exception as e:
     recipe_rag = None
 
 # ===================================================================
+# RAG ADAPTER DLA UNIVERSAL ASSISTANT - KOMPATYBILNOŚĆ
+# ===================================================================
+class RagEngineAdapter:
+    """
+    Adapter dla kompatybilności między RecipeRAG a Universal Assistant
+    Konwertuje interfejs RecipeRAG na RagEngine wymagany przez Universal Assistant
+    """
+    def __init__(self, recipe_rag_instance):
+        self.recipe_rag = recipe_rag_instance
+    
+    def search_relevant(self, query):
+        """Interfejs wymagany przez Universal Assistant"""
+        if not self.recipe_rag:
+            return []
+        
+        try:
+            # Użyj istniejącej funkcji suggest_recipes
+            result = self.recipe_rag.suggest_recipes([query], max_results=5)
+            recipes = result.get('all_recipes', [])
+            
+            print(f"🔍 RAG Adapter: '{query}' → {len(recipes)} wyników")
+            return recipes
+            
+        except Exception as e:
+            print(f"❌ Błąd RAG Adapter: {e}")
+            return []
+
+# Stwórz adapter dla Universal Assistant
+if RAG_AVAILABLE and recipe_rag:
+    rag_adapter = RagEngineAdapter(recipe_rag)
+    print("✅ RAG Adapter utworzony dla Universal Assistant")
+else:
+    rag_adapter = None
+    print("⚠️ RAG Adapter niedostępny")
+
+# ===================================================================
 # 📚 SEKCJA 4: KOMENDY PREDEFINIOWANE - WCZYTANIE I WALIDACJA
 # ===================================================================
 
@@ -383,22 +442,24 @@ def zapytaj_llm_safe_with_fallback(tekst, config, max_retries=2):
 # 🤖 SEKCJA 6: LLM INTENT CLASSIFIERS - RÓŻNE METODY
 # ===================================================================
 
-def klasyfikuj_intencje_llm_simple(tekst, dostepne_intencje):
+def klasyfikuj_intencje_llm_simple(tekst, dostepne_intencje, config):
     """Prosty LLM classifier (stara wersja)"""
     
     intencje_lista = ", ".join([k["intencja"] for k in dostepne_intencje])
     
-    prompt_klasyfikacji = f"""Przeanalizuj tekst użytkownika i określ jego intencję.
+    prompt_klasyfikacji = f"""UWAGA: Odpowiadaj WYŁĄCZNIE po polsku!
 
-TEKST: "{tekst}"
+Przeanalizuj tekst użytkownika: "{tekst}"
 
-DOSTĘPNE INTENCJE:
-{intencje_lista}
+Dostępne polskie intencje: {intencje_lista}
 
-Zadanie: Wybierz DOKŁADNIE JEDNĄ intencję z listy powyżej, która najlepiej pasuje do tekstu.
-Jeśli żadna nie pasuje, odpowiedz: "brak_dopasowania"
+ZADANIE: Wybierz dokładnie JEDNĄ intencję z listy która pasuje do tekstu.
+- Jeśli tekst mówi o składnikach i gotowaniu → "dania_z_skladnikow"  
+- Jeśli pyta o kalorie → "kalorie_produktu"
+- Jeśli pyta o godzinę → "zapytanie_godzina"
+- Jeśli żadna nie pasuje → "brak_dopasowania"
 
-Odpowiedz TYLKO nazwą intencji, bez dodatkowych słów."""
+ODPOWIEDŹ (TYLKO nazwa intencji po polsku):"""
 
     try:
        # Użyj tej samej konfiguracji co główny system
@@ -427,7 +488,7 @@ Odpowiedz TYLKO nazwą intencji, bez dodatkowych słów."""
         print(f"❌ Błąd simple klasyfikacji: {e}")
         return None
 
-def klasyfikuj_intencje_llm_few_shot(tekst, dostepne_intencje):
+def klasyfikuj_intencje_llm_few_shot(tekst, dostepne_intencje, config):
     """Few-shot LLM classifier (ulepszona wersja)"""
     
     # Few-shot examples
@@ -588,7 +649,8 @@ def analizuj(tekst, config, tts_module):
             provider = config.get("llm_config", {}).get("provider", "openrouter")
             
             # Użyj bezpiecznej funkcji LLM z fallback
-            odpowiedz = zapytaj_llm_safe_with_fallback(tekst, config)
+            polish_prompt = f"Odpowiadaj TYLKO po polsku. Użytkownik powiedział: '{tekst}'"
+            odpowiedz = zapytaj_llm_safe_with_fallback(polish_prompt, config)
             
             # Dodaj prefix żeby było widać że to czysty LLM
             if not odpowiedz.startswith("❌"):

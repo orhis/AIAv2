@@ -15,7 +15,7 @@
         "edge_voice": "marek"
     },
     "recognition_config": {
-        "method": "regex_plus_few_shot",
+        "method": "regex_plus_simple",
         "confidence_threshold": 0.7,
         "use_context": true,
         "debug_mode": false
