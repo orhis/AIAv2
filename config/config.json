@@ -1,9 +1,11 @@
 {
     "llm_config": {
-        "model": "openai/gpt-3.5-turbo",
+        "provider": "ollama",
+        "model": "llama3.1:8b",
+        "base_url": "http://localhost:11434",
         "max_tokens": 2048,
         "temperature": 0.65,
-        "top_p": 1.0
+        "alternative_models": []
     },
     "local_config": {
         "tryb": "testowy",
@@ -11,5 +13,11 @@
         "stt": "faster_whisper",
         "tts": "edge",
         "edge_voice": "marek"
+    },
+    "recognition_config": {
+        "method": "regex_plus_few_shot",
+        "confidence_threshold": 0.7,
+        "use_context": true,
+        "debug_mode": false
     }
 }

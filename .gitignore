@@ -1,3 +1,4 @@
+cat > .gitignore << 'EOF'
 # === Python cache ===
 __pycache__/
 *.py[cod]
@@ -38,3 +39,21 @@ Thumbs.db
 # === Database files (local data) ===
 data/db/
 *.db
+
+# === Token cache (auto-generated) ===
+data/token_limits.json
+
+# === Backup files i notebook versions ===
+*_backup.py
+*_notebook.py
+interface/config_gui_notebook.py
+
+# === Future features (work in progress) ===
+core/recognizers/
+
+# === Temporary/duplicate folders ===
+config/config/
+EOF
+
+# === Token cache ===
+data/token_limits.json
